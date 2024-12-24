@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blossom.backend.repository.mapper.StockCompanyMapper" >
+  <resultMap id="BaseResultMap" type="com.blossom.backend.repository.model.StockCompany" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="ts_cod" property="tsCod" jdbcType="VARCHAR" />
+    <result column="symbol" property="symbol" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="industry" property="industry" jdbcType="VARCHAR" />
+    <result column="fullname" property="fullname" jdbcType="VARCHAR" />
+    <result column="market" property="market" jdbcType="VARCHAR" />
+    <result column="list_status" property="listStatus" jdbcType="VARCHAR" />
+    <result column="list_date" property="listDate" jdbcType="VARCHAR" />
+    <result column="pe_ttm" property="peTtm" jdbcType="VARCHAR" />
+    <result column="high_52_week" property="high52Week" jdbcType="VARCHAR" />
+    <result column="low_52_week" property="low52Week" jdbcType="VARCHAR" />
+    <result column="total_shares" property="totalShares" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, ts_cod, symbol, name, area, industry, fullname, market, list_status, list_date, 
+    pe_ttm, high_52_week, low_52_week, total_shares, create_time, update_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.blossom.backend.repository.model.StockCompanyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from stock_company
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from stock_company
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from stock_company
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.blossom.backend.repository.model.StockCompanyExample" >
+    delete from stock_company
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.blossom.backend.repository.model.StockCompany" >
+    insert into stock_company (id, ts_cod, symbol, 
+      name, area, industry, 
+      fullname, market, list_status, 
+      list_date, pe_ttm, high_52_week, 
+      low_52_week, total_shares, create_time, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{tsCod,jdbcType=VARCHAR}, #{symbol,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{industry,jdbcType=VARCHAR}, 
+      #{fullname,jdbcType=VARCHAR}, #{market,jdbcType=VARCHAR}, #{listStatus,jdbcType=VARCHAR}, 
+      #{listDate,jdbcType=VARCHAR}, #{peTtm,jdbcType=VARCHAR}, #{high52Week,jdbcType=VARCHAR}, 
+      #{low52Week,jdbcType=VARCHAR}, #{totalShares,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.blossom.backend.repository.model.StockCompany" >
+    insert into stock_company
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="tsCod != null" >
+        ts_cod,
+      </if>
+      <if test="symbol != null" >
+        symbol,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="industry != null" >
+        industry,
+      </if>
+      <if test="fullname != null" >
+        fullname,
+      </if>
+      <if test="market != null" >
+        market,
+      </if>
+      <if test="listStatus != null" >
+        list_status,
+      </if>
+      <if test="listDate != null" >
+        list_date,
+      </if>
+      <if test="peTtm != null" >
+        pe_ttm,
+      </if>
+      <if test="high52Week != null" >
+        high_52_week,
+      </if>
+      <if test="low52Week != null" >
+        low_52_week,
+      </if>
+      <if test="totalShares != null" >
+        total_shares,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="tsCod != null" >
+        #{tsCod,jdbcType=VARCHAR},
+      </if>
+      <if test="symbol != null" >
+        #{symbol,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null" >
+        #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="fullname != null" >
+        #{fullname,jdbcType=VARCHAR},
+      </if>
+      <if test="market != null" >
+        #{market,jdbcType=VARCHAR},
+      </if>
+      <if test="listStatus != null" >
+        #{listStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="listDate != null" >
+        #{listDate,jdbcType=VARCHAR},
+      </if>
+      <if test="peTtm != null" >
+        #{peTtm,jdbcType=VARCHAR},
+      </if>
+      <if test="high52Week != null" >
+        #{high52Week,jdbcType=VARCHAR},
+      </if>
+      <if test="low52Week != null" >
+        #{low52Week,jdbcType=VARCHAR},
+      </if>
+      <if test="totalShares != null" >
+        #{totalShares,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.blossom.backend.repository.model.StockCompanyExample" resultType="java.lang.Integer" >
+    select count(*) from stock_company
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update stock_company
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.tsCod != null" >
+        ts_cod = #{record.tsCod,jdbcType=VARCHAR},
+      </if>
+      <if test="record.symbol != null" >
+        symbol = #{record.symbol,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.area != null" >
+        area = #{record.area,jdbcType=VARCHAR},
+      </if>
+      <if test="record.industry != null" >
+        industry = #{record.industry,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fullname != null" >
+        fullname = #{record.fullname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.market != null" >
+        market = #{record.market,jdbcType=VARCHAR},
+      </if>
+      <if test="record.listStatus != null" >
+        list_status = #{record.listStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.listDate != null" >
+        list_date = #{record.listDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.peTtm != null" >
+        pe_ttm = #{record.peTtm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.high52Week != null" >
+        high_52_week = #{record.high52Week,jdbcType=VARCHAR},
+      </if>
+      <if test="record.low52Week != null" >
+        low_52_week = #{record.low52Week,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalShares != null" >
+        total_shares = #{record.totalShares,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update stock_company
+    set id = #{record.id,jdbcType=INTEGER},
+      ts_cod = #{record.tsCod,jdbcType=VARCHAR},
+      symbol = #{record.symbol,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      area = #{record.area,jdbcType=VARCHAR},
+      industry = #{record.industry,jdbcType=VARCHAR},
+      fullname = #{record.fullname,jdbcType=VARCHAR},
+      market = #{record.market,jdbcType=VARCHAR},
+      list_status = #{record.listStatus,jdbcType=VARCHAR},
+      list_date = #{record.listDate,jdbcType=VARCHAR},
+      pe_ttm = #{record.peTtm,jdbcType=VARCHAR},
+      high_52_week = #{record.high52Week,jdbcType=VARCHAR},
+      low_52_week = #{record.low52Week,jdbcType=VARCHAR},
+      total_shares = #{record.totalShares,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.blossom.backend.repository.model.StockCompany" >
+    update stock_company
+    <set >
+      <if test="tsCod != null" >
+        ts_cod = #{tsCod,jdbcType=VARCHAR},
+      </if>
+      <if test="symbol != null" >
+        symbol = #{symbol,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null" >
+        industry = #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="fullname != null" >
+        fullname = #{fullname,jdbcType=VARCHAR},
+      </if>
+      <if test="market != null" >
+        market = #{market,jdbcType=VARCHAR},
+      </if>
+      <if test="listStatus != null" >
+        list_status = #{listStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="listDate != null" >
+        list_date = #{listDate,jdbcType=VARCHAR},
+      </if>
+      <if test="peTtm != null" >
+        pe_ttm = #{peTtm,jdbcType=VARCHAR},
+      </if>
+      <if test="high52Week != null" >
+        high_52_week = #{high52Week,jdbcType=VARCHAR},
+      </if>
+      <if test="low52Week != null" >
+        low_52_week = #{low52Week,jdbcType=VARCHAR},
+      </if>
+      <if test="totalShares != null" >
+        total_shares = #{totalShares,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.blossom.backend.repository.model.StockCompany" >
+    update stock_company
+    set ts_cod = #{tsCod,jdbcType=VARCHAR},
+      symbol = #{symbol,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR},
+      industry = #{industry,jdbcType=VARCHAR},
+      fullname = #{fullname,jdbcType=VARCHAR},
+      market = #{market,jdbcType=VARCHAR},
+      list_status = #{listStatus,jdbcType=VARCHAR},
+      list_date = #{listDate,jdbcType=VARCHAR},
+      pe_ttm = #{peTtm,jdbcType=VARCHAR},
+      high_52_week = #{high52Week,jdbcType=VARCHAR},
+      low_52_week = #{low52Week,jdbcType=VARCHAR},
+      total_shares = #{totalShares,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

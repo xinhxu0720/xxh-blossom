@@ -1,0 +1,834 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blossom.backend.repository.mapper.StockReportsMapper" >
+  <resultMap id="BaseResultMap" type="com.blossom.backend.repository.model.StockReports" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="report_date" property="reportDate" jdbcType="VARCHAR" />
+    <result column="report_name" property="reportName" jdbcType="VARCHAR" />
+    <result column="ctime" property="ctime" jdbcType="VARCHAR" />
+    <result column="total_revenue" property="totalRevenue" jdbcType="VARCHAR" />
+    <result column="avg_roe" property="avgRoe" jdbcType="VARCHAR" />
+    <result column="np_per_share" property="npPerShare" jdbcType="VARCHAR" />
+    <result column="gross_selling_rate" property="grossSellingRate" jdbcType="VARCHAR" />
+    <result column="net_interest_of_total_assets" property="netInterestOfTotalAssets" jdbcType="VARCHAR" />
+    <result column="net_selling_rate" property="netSellingRate" jdbcType="VARCHAR" />
+    <result column="operate_cash_flow_ps" property="operateCashFlowPs" jdbcType="VARCHAR" />
+    <result column="basic_eps" property="basicEps" jdbcType="VARCHAR" />
+    <result column="capital_reserve" property="capitalReserve" jdbcType="VARCHAR" />
+    <result column="undistri_profit_ps" property="undistriProfitPs" jdbcType="VARCHAR" />
+    <result column="operating_income_yoy" property="operatingIncomeYoy" jdbcType="VARCHAR" />
+    <result column="net_profit_atsopc" property="netProfitAtsopc" jdbcType="VARCHAR" />
+    <result column="net_profit_atsopc_yoy" property="netProfitAtsopcYoy" jdbcType="VARCHAR" />
+    <result column="net_profit_after_nrgal_atsolc" property="netProfitAfterNrgalAtsolc" jdbcType="VARCHAR" />
+    <result column="np_atsopc_nrgal_yoy" property="npAtsopcNrgalYoy" jdbcType="VARCHAR" />
+    <result column="ore_dlt" property="oreDlt" jdbcType="VARCHAR" />
+    <result column="rop" property="rop" jdbcType="VARCHAR" />
+    <result column="asset_liab_ratio" property="assetLiabRatio" jdbcType="VARCHAR" />
+    <result column="current_ratio" property="currentRatio" jdbcType="VARCHAR" />
+    <result column="quick_ratio" property="quickRatio" jdbcType="VARCHAR" />
+    <result column="equity_multiplier" property="equityMultiplier" jdbcType="VARCHAR" />
+    <result column="equity_ratio" property="equityRatio" jdbcType="VARCHAR" />
+    <result column="holder_equity" property="holderEquity" jdbcType="VARCHAR" />
+    <result column="ncf_from_oa_to_total_liab" property="ncfFromOaToTotalLiab" jdbcType="VARCHAR" />
+    <result column="inventory_turnover_days" property="inventoryTurnoverDays" jdbcType="VARCHAR" />
+    <result column="receivable_turnover_days" property="receivableTurnoverDays" jdbcType="VARCHAR" />
+    <result column="accounts_payable_turnover_days" property="accountsPayableTurnoverDays" jdbcType="VARCHAR" />
+    <result column="cash_cycle" property="cashCycle" jdbcType="VARCHAR" />
+    <result column="operating_cycle" property="operatingCycle" jdbcType="VARCHAR" />
+    <result column="total_capital_turnover" property="totalCapitalTurnover" jdbcType="VARCHAR" />
+    <result column="inventory_turnover" property="inventoryTurnover" jdbcType="VARCHAR" />
+    <result column="account_receivable_turnover" property="accountReceivableTurnover" jdbcType="VARCHAR" />
+    <result column="accounts_payable_turnover" property="accountsPayableTurnover" jdbcType="VARCHAR" />
+    <result column="current_asset_turnover_rate" property="currentAssetTurnoverRate" jdbcType="VARCHAR" />
+    <result column="fixed_asset_turnover_ratio" property="fixedAssetTurnoverRatio" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, code, name, url, report_date, report_name, ctime, total_revenue, avg_roe, np_per_share, 
+    gross_selling_rate, net_interest_of_total_assets, net_selling_rate, operate_cash_flow_ps, 
+    basic_eps, capital_reserve, undistri_profit_ps, operating_income_yoy, net_profit_atsopc, 
+    net_profit_atsopc_yoy, net_profit_after_nrgal_atsolc, np_atsopc_nrgal_yoy, ore_dlt, 
+    rop, asset_liab_ratio, current_ratio, quick_ratio, equity_multiplier, equity_ratio, 
+    holder_equity, ncf_from_oa_to_total_liab, inventory_turnover_days, receivable_turnover_days, 
+    accounts_payable_turnover_days, cash_cycle, operating_cycle, total_capital_turnover, 
+    inventory_turnover, account_receivable_turnover, accounts_payable_turnover, current_asset_turnover_rate, 
+    fixed_asset_turnover_ratio, create_time, update_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.blossom.backend.repository.model.StockReportsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from stock_reports
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from stock_reports
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from stock_reports
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.blossom.backend.repository.model.StockReportsExample" >
+    delete from stock_reports
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.blossom.backend.repository.model.StockReports" >
+    insert into stock_reports (id, code, name, 
+      url, report_date, report_name, 
+      ctime, total_revenue, avg_roe, 
+      np_per_share, gross_selling_rate, net_interest_of_total_assets, 
+      net_selling_rate, operate_cash_flow_ps, basic_eps, 
+      capital_reserve, undistri_profit_ps, operating_income_yoy, 
+      net_profit_atsopc, net_profit_atsopc_yoy, net_profit_after_nrgal_atsolc, 
+      np_atsopc_nrgal_yoy, ore_dlt, rop, 
+      asset_liab_ratio, current_ratio, quick_ratio, 
+      equity_multiplier, equity_ratio, holder_equity, 
+      ncf_from_oa_to_total_liab, inventory_turnover_days, 
+      receivable_turnover_days, accounts_payable_turnover_days, 
+      cash_cycle, operating_cycle, total_capital_turnover, 
+      inventory_turnover, account_receivable_turnover, 
+      accounts_payable_turnover, current_asset_turnover_rate, 
+      fixed_asset_turnover_ratio, create_time, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{reportDate,jdbcType=VARCHAR}, #{reportName,jdbcType=VARCHAR}, 
+      #{ctime,jdbcType=VARCHAR}, #{totalRevenue,jdbcType=VARCHAR}, #{avgRoe,jdbcType=VARCHAR}, 
+      #{npPerShare,jdbcType=VARCHAR}, #{grossSellingRate,jdbcType=VARCHAR}, #{netInterestOfTotalAssets,jdbcType=VARCHAR}, 
+      #{netSellingRate,jdbcType=VARCHAR}, #{operateCashFlowPs,jdbcType=VARCHAR}, #{basicEps,jdbcType=VARCHAR}, 
+      #{capitalReserve,jdbcType=VARCHAR}, #{undistriProfitPs,jdbcType=VARCHAR}, #{operatingIncomeYoy,jdbcType=VARCHAR}, 
+      #{netProfitAtsopc,jdbcType=VARCHAR}, #{netProfitAtsopcYoy,jdbcType=VARCHAR}, #{netProfitAfterNrgalAtsolc,jdbcType=VARCHAR}, 
+      #{npAtsopcNrgalYoy,jdbcType=VARCHAR}, #{oreDlt,jdbcType=VARCHAR}, #{rop,jdbcType=VARCHAR}, 
+      #{assetLiabRatio,jdbcType=VARCHAR}, #{currentRatio,jdbcType=VARCHAR}, #{quickRatio,jdbcType=VARCHAR}, 
+      #{equityMultiplier,jdbcType=VARCHAR}, #{equityRatio,jdbcType=VARCHAR}, #{holderEquity,jdbcType=VARCHAR}, 
+      #{ncfFromOaToTotalLiab,jdbcType=VARCHAR}, #{inventoryTurnoverDays,jdbcType=VARCHAR}, 
+      #{receivableTurnoverDays,jdbcType=VARCHAR}, #{accountsPayableTurnoverDays,jdbcType=VARCHAR}, 
+      #{cashCycle,jdbcType=VARCHAR}, #{operatingCycle,jdbcType=VARCHAR}, #{totalCapitalTurnover,jdbcType=VARCHAR}, 
+      #{inventoryTurnover,jdbcType=VARCHAR}, #{accountReceivableTurnover,jdbcType=VARCHAR}, 
+      #{accountsPayableTurnover,jdbcType=VARCHAR}, #{currentAssetTurnoverRate,jdbcType=VARCHAR}, 
+      #{fixedAssetTurnoverRatio,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.blossom.backend.repository.model.StockReports" >
+    insert into stock_reports
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="reportDate != null" >
+        report_date,
+      </if>
+      <if test="reportName != null" >
+        report_name,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="totalRevenue != null" >
+        total_revenue,
+      </if>
+      <if test="avgRoe != null" >
+        avg_roe,
+      </if>
+      <if test="npPerShare != null" >
+        np_per_share,
+      </if>
+      <if test="grossSellingRate != null" >
+        gross_selling_rate,
+      </if>
+      <if test="netInterestOfTotalAssets != null" >
+        net_interest_of_total_assets,
+      </if>
+      <if test="netSellingRate != null" >
+        net_selling_rate,
+      </if>
+      <if test="operateCashFlowPs != null" >
+        operate_cash_flow_ps,
+      </if>
+      <if test="basicEps != null" >
+        basic_eps,
+      </if>
+      <if test="capitalReserve != null" >
+        capital_reserve,
+      </if>
+      <if test="undistriProfitPs != null" >
+        undistri_profit_ps,
+      </if>
+      <if test="operatingIncomeYoy != null" >
+        operating_income_yoy,
+      </if>
+      <if test="netProfitAtsopc != null" >
+        net_profit_atsopc,
+      </if>
+      <if test="netProfitAtsopcYoy != null" >
+        net_profit_atsopc_yoy,
+      </if>
+      <if test="netProfitAfterNrgalAtsolc != null" >
+        net_profit_after_nrgal_atsolc,
+      </if>
+      <if test="npAtsopcNrgalYoy != null" >
+        np_atsopc_nrgal_yoy,
+      </if>
+      <if test="oreDlt != null" >
+        ore_dlt,
+      </if>
+      <if test="rop != null" >
+        rop,
+      </if>
+      <if test="assetLiabRatio != null" >
+        asset_liab_ratio,
+      </if>
+      <if test="currentRatio != null" >
+        current_ratio,
+      </if>
+      <if test="quickRatio != null" >
+        quick_ratio,
+      </if>
+      <if test="equityMultiplier != null" >
+        equity_multiplier,
+      </if>
+      <if test="equityRatio != null" >
+        equity_ratio,
+      </if>
+      <if test="holderEquity != null" >
+        holder_equity,
+      </if>
+      <if test="ncfFromOaToTotalLiab != null" >
+        ncf_from_oa_to_total_liab,
+      </if>
+      <if test="inventoryTurnoverDays != null" >
+        inventory_turnover_days,
+      </if>
+      <if test="receivableTurnoverDays != null" >
+        receivable_turnover_days,
+      </if>
+      <if test="accountsPayableTurnoverDays != null" >
+        accounts_payable_turnover_days,
+      </if>
+      <if test="cashCycle != null" >
+        cash_cycle,
+      </if>
+      <if test="operatingCycle != null" >
+        operating_cycle,
+      </if>
+      <if test="totalCapitalTurnover != null" >
+        total_capital_turnover,
+      </if>
+      <if test="inventoryTurnover != null" >
+        inventory_turnover,
+      </if>
+      <if test="accountReceivableTurnover != null" >
+        account_receivable_turnover,
+      </if>
+      <if test="accountsPayableTurnover != null" >
+        accounts_payable_turnover,
+      </if>
+      <if test="currentAssetTurnoverRate != null" >
+        current_asset_turnover_rate,
+      </if>
+      <if test="fixedAssetTurnoverRatio != null" >
+        fixed_asset_turnover_ratio,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="reportDate != null" >
+        #{reportDate,jdbcType=VARCHAR},
+      </if>
+      <if test="reportName != null" >
+        #{reportName,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=VARCHAR},
+      </if>
+      <if test="totalRevenue != null" >
+        #{totalRevenue,jdbcType=VARCHAR},
+      </if>
+      <if test="avgRoe != null" >
+        #{avgRoe,jdbcType=VARCHAR},
+      </if>
+      <if test="npPerShare != null" >
+        #{npPerShare,jdbcType=VARCHAR},
+      </if>
+      <if test="grossSellingRate != null" >
+        #{grossSellingRate,jdbcType=VARCHAR},
+      </if>
+      <if test="netInterestOfTotalAssets != null" >
+        #{netInterestOfTotalAssets,jdbcType=VARCHAR},
+      </if>
+      <if test="netSellingRate != null" >
+        #{netSellingRate,jdbcType=VARCHAR},
+      </if>
+      <if test="operateCashFlowPs != null" >
+        #{operateCashFlowPs,jdbcType=VARCHAR},
+      </if>
+      <if test="basicEps != null" >
+        #{basicEps,jdbcType=VARCHAR},
+      </if>
+      <if test="capitalReserve != null" >
+        #{capitalReserve,jdbcType=VARCHAR},
+      </if>
+      <if test="undistriProfitPs != null" >
+        #{undistriProfitPs,jdbcType=VARCHAR},
+      </if>
+      <if test="operatingIncomeYoy != null" >
+        #{operatingIncomeYoy,jdbcType=VARCHAR},
+      </if>
+      <if test="netProfitAtsopc != null" >
+        #{netProfitAtsopc,jdbcType=VARCHAR},
+      </if>
+      <if test="netProfitAtsopcYoy != null" >
+        #{netProfitAtsopcYoy,jdbcType=VARCHAR},
+      </if>
+      <if test="netProfitAfterNrgalAtsolc != null" >
+        #{netProfitAfterNrgalAtsolc,jdbcType=VARCHAR},
+      </if>
+      <if test="npAtsopcNrgalYoy != null" >
+        #{npAtsopcNrgalYoy,jdbcType=VARCHAR},
+      </if>
+      <if test="oreDlt != null" >
+        #{oreDlt,jdbcType=VARCHAR},
+      </if>
+      <if test="rop != null" >
+        #{rop,jdbcType=VARCHAR},
+      </if>
+      <if test="assetLiabRatio != null" >
+        #{assetLiabRatio,jdbcType=VARCHAR},
+      </if>
+      <if test="currentRatio != null" >
+        #{currentRatio,jdbcType=VARCHAR},
+      </if>
+      <if test="quickRatio != null" >
+        #{quickRatio,jdbcType=VARCHAR},
+      </if>
+      <if test="equityMultiplier != null" >
+        #{equityMultiplier,jdbcType=VARCHAR},
+      </if>
+      <if test="equityRatio != null" >
+        #{equityRatio,jdbcType=VARCHAR},
+      </if>
+      <if test="holderEquity != null" >
+        #{holderEquity,jdbcType=VARCHAR},
+      </if>
+      <if test="ncfFromOaToTotalLiab != null" >
+        #{ncfFromOaToTotalLiab,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryTurnoverDays != null" >
+        #{inventoryTurnoverDays,jdbcType=VARCHAR},
+      </if>
+      <if test="receivableTurnoverDays != null" >
+        #{receivableTurnoverDays,jdbcType=VARCHAR},
+      </if>
+      <if test="accountsPayableTurnoverDays != null" >
+        #{accountsPayableTurnoverDays,jdbcType=VARCHAR},
+      </if>
+      <if test="cashCycle != null" >
+        #{cashCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="operatingCycle != null" >
+        #{operatingCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="totalCapitalTurnover != null" >
+        #{totalCapitalTurnover,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryTurnover != null" >
+        #{inventoryTurnover,jdbcType=VARCHAR},
+      </if>
+      <if test="accountReceivableTurnover != null" >
+        #{accountReceivableTurnover,jdbcType=VARCHAR},
+      </if>
+      <if test="accountsPayableTurnover != null" >
+        #{accountsPayableTurnover,jdbcType=VARCHAR},
+      </if>
+      <if test="currentAssetTurnoverRate != null" >
+        #{currentAssetTurnoverRate,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedAssetTurnoverRatio != null" >
+        #{fixedAssetTurnoverRatio,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.blossom.backend.repository.model.StockReportsExample" resultType="java.lang.Integer" >
+    select count(*) from stock_reports
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update stock_reports
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null" >
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reportDate != null" >
+        report_date = #{record.reportDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reportName != null" >
+        report_name = #{record.reportName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalRevenue != null" >
+        total_revenue = #{record.totalRevenue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.avgRoe != null" >
+        avg_roe = #{record.avgRoe,jdbcType=VARCHAR},
+      </if>
+      <if test="record.npPerShare != null" >
+        np_per_share = #{record.npPerShare,jdbcType=VARCHAR},
+      </if>
+      <if test="record.grossSellingRate != null" >
+        gross_selling_rate = #{record.grossSellingRate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.netInterestOfTotalAssets != null" >
+        net_interest_of_total_assets = #{record.netInterestOfTotalAssets,jdbcType=VARCHAR},
+      </if>
+      <if test="record.netSellingRate != null" >
+        net_selling_rate = #{record.netSellingRate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operateCashFlowPs != null" >
+        operate_cash_flow_ps = #{record.operateCashFlowPs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.basicEps != null" >
+        basic_eps = #{record.basicEps,jdbcType=VARCHAR},
+      </if>
+      <if test="record.capitalReserve != null" >
+        capital_reserve = #{record.capitalReserve,jdbcType=VARCHAR},
+      </if>
+      <if test="record.undistriProfitPs != null" >
+        undistri_profit_ps = #{record.undistriProfitPs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operatingIncomeYoy != null" >
+        operating_income_yoy = #{record.operatingIncomeYoy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.netProfitAtsopc != null" >
+        net_profit_atsopc = #{record.netProfitAtsopc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.netProfitAtsopcYoy != null" >
+        net_profit_atsopc_yoy = #{record.netProfitAtsopcYoy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.netProfitAfterNrgalAtsolc != null" >
+        net_profit_after_nrgal_atsolc = #{record.netProfitAfterNrgalAtsolc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.npAtsopcNrgalYoy != null" >
+        np_atsopc_nrgal_yoy = #{record.npAtsopcNrgalYoy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oreDlt != null" >
+        ore_dlt = #{record.oreDlt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rop != null" >
+        rop = #{record.rop,jdbcType=VARCHAR},
+      </if>
+      <if test="record.assetLiabRatio != null" >
+        asset_liab_ratio = #{record.assetLiabRatio,jdbcType=VARCHAR},
+      </if>
+      <if test="record.currentRatio != null" >
+        current_ratio = #{record.currentRatio,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quickRatio != null" >
+        quick_ratio = #{record.quickRatio,jdbcType=VARCHAR},
+      </if>
+      <if test="record.equityMultiplier != null" >
+        equity_multiplier = #{record.equityMultiplier,jdbcType=VARCHAR},
+      </if>
+      <if test="record.equityRatio != null" >
+        equity_ratio = #{record.equityRatio,jdbcType=VARCHAR},
+      </if>
+      <if test="record.holderEquity != null" >
+        holder_equity = #{record.holderEquity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ncfFromOaToTotalLiab != null" >
+        ncf_from_oa_to_total_liab = #{record.ncfFromOaToTotalLiab,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inventoryTurnoverDays != null" >
+        inventory_turnover_days = #{record.inventoryTurnoverDays,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receivableTurnoverDays != null" >
+        receivable_turnover_days = #{record.receivableTurnoverDays,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accountsPayableTurnoverDays != null" >
+        accounts_payable_turnover_days = #{record.accountsPayableTurnoverDays,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cashCycle != null" >
+        cash_cycle = #{record.cashCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operatingCycle != null" >
+        operating_cycle = #{record.operatingCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalCapitalTurnover != null" >
+        total_capital_turnover = #{record.totalCapitalTurnover,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inventoryTurnover != null" >
+        inventory_turnover = #{record.inventoryTurnover,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accountReceivableTurnover != null" >
+        account_receivable_turnover = #{record.accountReceivableTurnover,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accountsPayableTurnover != null" >
+        accounts_payable_turnover = #{record.accountsPayableTurnover,jdbcType=VARCHAR},
+      </if>
+      <if test="record.currentAssetTurnoverRate != null" >
+        current_asset_turnover_rate = #{record.currentAssetTurnoverRate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fixedAssetTurnoverRatio != null" >
+        fixed_asset_turnover_ratio = #{record.fixedAssetTurnoverRatio,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update stock_reports
+    set id = #{record.id,jdbcType=INTEGER},
+      code = #{record.code,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      url = #{record.url,jdbcType=VARCHAR},
+      report_date = #{record.reportDate,jdbcType=VARCHAR},
+      report_name = #{record.reportName,jdbcType=VARCHAR},
+      ctime = #{record.ctime,jdbcType=VARCHAR},
+      total_revenue = #{record.totalRevenue,jdbcType=VARCHAR},
+      avg_roe = #{record.avgRoe,jdbcType=VARCHAR},
+      np_per_share = #{record.npPerShare,jdbcType=VARCHAR},
+      gross_selling_rate = #{record.grossSellingRate,jdbcType=VARCHAR},
+      net_interest_of_total_assets = #{record.netInterestOfTotalAssets,jdbcType=VARCHAR},
+      net_selling_rate = #{record.netSellingRate,jdbcType=VARCHAR},
+      operate_cash_flow_ps = #{record.operateCashFlowPs,jdbcType=VARCHAR},
+      basic_eps = #{record.basicEps,jdbcType=VARCHAR},
+      capital_reserve = #{record.capitalReserve,jdbcType=VARCHAR},
+      undistri_profit_ps = #{record.undistriProfitPs,jdbcType=VARCHAR},
+      operating_income_yoy = #{record.operatingIncomeYoy,jdbcType=VARCHAR},
+      net_profit_atsopc = #{record.netProfitAtsopc,jdbcType=VARCHAR},
+      net_profit_atsopc_yoy = #{record.netProfitAtsopcYoy,jdbcType=VARCHAR},
+      net_profit_after_nrgal_atsolc = #{record.netProfitAfterNrgalAtsolc,jdbcType=VARCHAR},
+      np_atsopc_nrgal_yoy = #{record.npAtsopcNrgalYoy,jdbcType=VARCHAR},
+      ore_dlt = #{record.oreDlt,jdbcType=VARCHAR},
+      rop = #{record.rop,jdbcType=VARCHAR},
+      asset_liab_ratio = #{record.assetLiabRatio,jdbcType=VARCHAR},
+      current_ratio = #{record.currentRatio,jdbcType=VARCHAR},
+      quick_ratio = #{record.quickRatio,jdbcType=VARCHAR},
+      equity_multiplier = #{record.equityMultiplier,jdbcType=VARCHAR},
+      equity_ratio = #{record.equityRatio,jdbcType=VARCHAR},
+      holder_equity = #{record.holderEquity,jdbcType=VARCHAR},
+      ncf_from_oa_to_total_liab = #{record.ncfFromOaToTotalLiab,jdbcType=VARCHAR},
+      inventory_turnover_days = #{record.inventoryTurnoverDays,jdbcType=VARCHAR},
+      receivable_turnover_days = #{record.receivableTurnoverDays,jdbcType=VARCHAR},
+      accounts_payable_turnover_days = #{record.accountsPayableTurnoverDays,jdbcType=VARCHAR},
+      cash_cycle = #{record.cashCycle,jdbcType=VARCHAR},
+      operating_cycle = #{record.operatingCycle,jdbcType=VARCHAR},
+      total_capital_turnover = #{record.totalCapitalTurnover,jdbcType=VARCHAR},
+      inventory_turnover = #{record.inventoryTurnover,jdbcType=VARCHAR},
+      account_receivable_turnover = #{record.accountReceivableTurnover,jdbcType=VARCHAR},
+      accounts_payable_turnover = #{record.accountsPayableTurnover,jdbcType=VARCHAR},
+      current_asset_turnover_rate = #{record.currentAssetTurnoverRate,jdbcType=VARCHAR},
+      fixed_asset_turnover_ratio = #{record.fixedAssetTurnoverRatio,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.blossom.backend.repository.model.StockReports" >
+    update stock_reports
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="reportDate != null" >
+        report_date = #{reportDate,jdbcType=VARCHAR},
+      </if>
+      <if test="reportName != null" >
+        report_name = #{reportName,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=VARCHAR},
+      </if>
+      <if test="totalRevenue != null" >
+        total_revenue = #{totalRevenue,jdbcType=VARCHAR},
+      </if>
+      <if test="avgRoe != null" >
+        avg_roe = #{avgRoe,jdbcType=VARCHAR},
+      </if>
+      <if test="npPerShare != null" >
+        np_per_share = #{npPerShare,jdbcType=VARCHAR},
+      </if>
+      <if test="grossSellingRate != null" >
+        gross_selling_rate = #{grossSellingRate,jdbcType=VARCHAR},
+      </if>
+      <if test="netInterestOfTotalAssets != null" >
+        net_interest_of_total_assets = #{netInterestOfTotalAssets,jdbcType=VARCHAR},
+      </if>
+      <if test="netSellingRate != null" >
+        net_selling_rate = #{netSellingRate,jdbcType=VARCHAR},
+      </if>
+      <if test="operateCashFlowPs != null" >
+        operate_cash_flow_ps = #{operateCashFlowPs,jdbcType=VARCHAR},
+      </if>
+      <if test="basicEps != null" >
+        basic_eps = #{basicEps,jdbcType=VARCHAR},
+      </if>
+      <if test="capitalReserve != null" >
+        capital_reserve = #{capitalReserve,jdbcType=VARCHAR},
+      </if>
+      <if test="undistriProfitPs != null" >
+        undistri_profit_ps = #{undistriProfitPs,jdbcType=VARCHAR},
+      </if>
+      <if test="operatingIncomeYoy != null" >
+        operating_income_yoy = #{operatingIncomeYoy,jdbcType=VARCHAR},
+      </if>
+      <if test="netProfitAtsopc != null" >
+        net_profit_atsopc = #{netProfitAtsopc,jdbcType=VARCHAR},
+      </if>
+      <if test="netProfitAtsopcYoy != null" >
+        net_profit_atsopc_yoy = #{netProfitAtsopcYoy,jdbcType=VARCHAR},
+      </if>
+      <if test="netProfitAfterNrgalAtsolc != null" >
+        net_profit_after_nrgal_atsolc = #{netProfitAfterNrgalAtsolc,jdbcType=VARCHAR},
+      </if>
+      <if test="npAtsopcNrgalYoy != null" >
+        np_atsopc_nrgal_yoy = #{npAtsopcNrgalYoy,jdbcType=VARCHAR},
+      </if>
+      <if test="oreDlt != null" >
+        ore_dlt = #{oreDlt,jdbcType=VARCHAR},
+      </if>
+      <if test="rop != null" >
+        rop = #{rop,jdbcType=VARCHAR},
+      </if>
+      <if test="assetLiabRatio != null" >
+        asset_liab_ratio = #{assetLiabRatio,jdbcType=VARCHAR},
+      </if>
+      <if test="currentRatio != null" >
+        current_ratio = #{currentRatio,jdbcType=VARCHAR},
+      </if>
+      <if test="quickRatio != null" >
+        quick_ratio = #{quickRatio,jdbcType=VARCHAR},
+      </if>
+      <if test="equityMultiplier != null" >
+        equity_multiplier = #{equityMultiplier,jdbcType=VARCHAR},
+      </if>
+      <if test="equityRatio != null" >
+        equity_ratio = #{equityRatio,jdbcType=VARCHAR},
+      </if>
+      <if test="holderEquity != null" >
+        holder_equity = #{holderEquity,jdbcType=VARCHAR},
+      </if>
+      <if test="ncfFromOaToTotalLiab != null" >
+        ncf_from_oa_to_total_liab = #{ncfFromOaToTotalLiab,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryTurnoverDays != null" >
+        inventory_turnover_days = #{inventoryTurnoverDays,jdbcType=VARCHAR},
+      </if>
+      <if test="receivableTurnoverDays != null" >
+        receivable_turnover_days = #{receivableTurnoverDays,jdbcType=VARCHAR},
+      </if>
+      <if test="accountsPayableTurnoverDays != null" >
+        accounts_payable_turnover_days = #{accountsPayableTurnoverDays,jdbcType=VARCHAR},
+      </if>
+      <if test="cashCycle != null" >
+        cash_cycle = #{cashCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="operatingCycle != null" >
+        operating_cycle = #{operatingCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="totalCapitalTurnover != null" >
+        total_capital_turnover = #{totalCapitalTurnover,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryTurnover != null" >
+        inventory_turnover = #{inventoryTurnover,jdbcType=VARCHAR},
+      </if>
+      <if test="accountReceivableTurnover != null" >
+        account_receivable_turnover = #{accountReceivableTurnover,jdbcType=VARCHAR},
+      </if>
+      <if test="accountsPayableTurnover != null" >
+        accounts_payable_turnover = #{accountsPayableTurnover,jdbcType=VARCHAR},
+      </if>
+      <if test="currentAssetTurnoverRate != null" >
+        current_asset_turnover_rate = #{currentAssetTurnoverRate,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedAssetTurnoverRatio != null" >
+        fixed_asset_turnover_ratio = #{fixedAssetTurnoverRatio,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.blossom.backend.repository.model.StockReports" >
+    update stock_reports
+    set code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      report_date = #{reportDate,jdbcType=VARCHAR},
+      report_name = #{reportName,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=VARCHAR},
+      total_revenue = #{totalRevenue,jdbcType=VARCHAR},
+      avg_roe = #{avgRoe,jdbcType=VARCHAR},
+      np_per_share = #{npPerShare,jdbcType=VARCHAR},
+      gross_selling_rate = #{grossSellingRate,jdbcType=VARCHAR},
+      net_interest_of_total_assets = #{netInterestOfTotalAssets,jdbcType=VARCHAR},
+      net_selling_rate = #{netSellingRate,jdbcType=VARCHAR},
+      operate_cash_flow_ps = #{operateCashFlowPs,jdbcType=VARCHAR},
+      basic_eps = #{basicEps,jdbcType=VARCHAR},
+      capital_reserve = #{capitalReserve,jdbcType=VARCHAR},
+      undistri_profit_ps = #{undistriProfitPs,jdbcType=VARCHAR},
+      operating_income_yoy = #{operatingIncomeYoy,jdbcType=VARCHAR},
+      net_profit_atsopc = #{netProfitAtsopc,jdbcType=VARCHAR},
+      net_profit_atsopc_yoy = #{netProfitAtsopcYoy,jdbcType=VARCHAR},
+      net_profit_after_nrgal_atsolc = #{netProfitAfterNrgalAtsolc,jdbcType=VARCHAR},
+      np_atsopc_nrgal_yoy = #{npAtsopcNrgalYoy,jdbcType=VARCHAR},
+      ore_dlt = #{oreDlt,jdbcType=VARCHAR},
+      rop = #{rop,jdbcType=VARCHAR},
+      asset_liab_ratio = #{assetLiabRatio,jdbcType=VARCHAR},
+      current_ratio = #{currentRatio,jdbcType=VARCHAR},
+      quick_ratio = #{quickRatio,jdbcType=VARCHAR},
+      equity_multiplier = #{equityMultiplier,jdbcType=VARCHAR},
+      equity_ratio = #{equityRatio,jdbcType=VARCHAR},
+      holder_equity = #{holderEquity,jdbcType=VARCHAR},
+      ncf_from_oa_to_total_liab = #{ncfFromOaToTotalLiab,jdbcType=VARCHAR},
+      inventory_turnover_days = #{inventoryTurnoverDays,jdbcType=VARCHAR},
+      receivable_turnover_days = #{receivableTurnoverDays,jdbcType=VARCHAR},
+      accounts_payable_turnover_days = #{accountsPayableTurnoverDays,jdbcType=VARCHAR},
+      cash_cycle = #{cashCycle,jdbcType=VARCHAR},
+      operating_cycle = #{operatingCycle,jdbcType=VARCHAR},
+      total_capital_turnover = #{totalCapitalTurnover,jdbcType=VARCHAR},
+      inventory_turnover = #{inventoryTurnover,jdbcType=VARCHAR},
+      account_receivable_turnover = #{accountReceivableTurnover,jdbcType=VARCHAR},
+      accounts_payable_turnover = #{accountsPayableTurnover,jdbcType=VARCHAR},
+      current_asset_turnover_rate = #{currentAssetTurnoverRate,jdbcType=VARCHAR},
+      fixed_asset_turnover_ratio = #{fixedAssetTurnoverRatio,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

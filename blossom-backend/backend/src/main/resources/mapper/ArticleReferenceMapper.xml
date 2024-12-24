@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blossom.backend.server.article.reference.ArticleReferenceMapper">
+
+    <!-- 批量新增 -->
+    <insert id="insertList">
+        insert into blossom_article_reference (
+            source_id,
+            source_name,
+            target_Id,
+            target_name,
+            target_url,
+            type,
+            user_id
+        ) values
+        <foreach collection="references" item="ref" separator="," close=";">
+            (
+            #{ref.sourceId},
+            #{ref.sourceName},
+            #{ref.targetId},
+            #{ref.targetName},
+            #{ref.targetUrl},
+            #{ref.type},
+            #{ref.userId}
+            )
+        </foreach>
+    </insert>
+
+    <select id="listPic" resultType="com.blossom.backend.server.article.reference.pojo.ArticleReferenceEntity">
+        select id,
+               source_id,
+               target_name,
+               target_url
+          from blossom_article_reference
+         where source_id = #{articleId}
+           and type = 10
+    </select>
+
+    <select id="listGraph" resultType="com.blossom.backend.server.article.reference.pojo.ArticleReferenceEntity">
+        select id,
+               source_id,
+               source_name,
+               target_Id,
+               target_name,
+               target_url,
+               type,
+               user_id
+          from blossom_article_reference
+         where user_id = #{userId}
+          <if test="inner == true">
+              and type in(11,12)
+          </if>
+          <if test="inner == false">
+              and type in (11,12,21)
+          </if>
+          <if test="articleId != null">
+              and (source_id = #{articleId} or target_id = #{articleId})
+          </if>
+    </select>
+
+    <update id="updateSourceName">
+        update blossom_article_reference
+           set source_name = #{sourceName}
+         where source_id = #{sourceId}
+           and user_id = #{userId}
+    </update>
+
+    <update id="updateTargetName">
+        update blossom_article_reference
+           set target_name = #{targetName}
+         where target_Id = #{targetId}
+           and user_id = #{userId}
+    </update>
+
+    <update id="updateToUnknown">
+        update blossom_article_reference
+           set target_name = #{targetName},
+               type = 12
+         where target_Id = #{targetId}
+           and user_id = #{userId}
+    </update>
+
+    <update id="updateToKnown">
+        update blossom_article_reference
+           set target_name = #{targetName},
+               type = 11
+         where target_Id = #{targetId}
+           and user_id = #{userId}
+    </update>
+
+    <delete id="delByUserId">
+        delete from blossom_article_reference where user_id = #{userId}
+    </delete>
+</mapper>

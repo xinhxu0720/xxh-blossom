@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blossom.backend.repository.mapper.StockNewsArticlesMapper" >
+  <resultMap id="BaseResultMap" type="com.blossom.backend.repository.model.StockNewsArticles" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="seq" property="seq" jdbcType="BIGINT" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="app_url" property="appUrl" jdbcType="VARCHAR" />
+    <result column="share_url" property="shareUrl" jdbcType="VARCHAR" />
+    <result column="stocks" property="stocks" jdbcType="CHAR" />
+    <result column="fields" property="fields" jdbcType="CHAR" />
+    <result column="tags" property="tags" jdbcType="CHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+    <result column="picUrl" property="picurl" jdbcType="VARCHAR" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="read_amount" property="readAmount" jdbcType="INTEGER" />
+    <result column="share_amount" property="shareAmount" jdbcType="INTEGER" />
+    <result column="qianfan_ai" property="qianfanAi" jdbcType="CHAR" />
+    <result column="result_type" property="resultType" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.blossom.backend.repository.model.StockNewsArticles" extends="BaseResultMap" >
+    <result column="summary" property="summary" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, seq, title, url, app_url, share_url, stocks, fields, tags, type, create_time, 
+    update_time, picUrl, source, read_amount, share_amount, qianfan_ai, result_type
+  </sql>
+  <sql id="Blob_Column_List" >
+    summary
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.blossom.backend.repository.model.StockNewsArticlesExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from stock_news_articles
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.blossom.backend.repository.model.StockNewsArticlesExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from stock_news_articles
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from stock_news_articles
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from stock_news_articles
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.blossom.backend.repository.model.StockNewsArticlesExample" >
+    delete from stock_news_articles
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.blossom.backend.repository.model.StockNewsArticles" >
+    insert into stock_news_articles (id, seq, title, 
+      url, app_url, share_url, 
+      stocks, fields, tags, type, 
+      create_time, update_time, picUrl, 
+      source, read_amount, share_amount, 
+      qianfan_ai, result_type, summary
+      )
+    values (#{id,jdbcType=INTEGER}, #{seq,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{appUrl,jdbcType=VARCHAR}, #{shareUrl,jdbcType=VARCHAR}, 
+      #{stocks,jdbcType=CHAR}, #{fields,jdbcType=CHAR}, #{tags,jdbcType=CHAR}, #{type,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}, #{picurl,jdbcType=VARCHAR}, 
+      #{source,jdbcType=VARCHAR}, #{readAmount,jdbcType=INTEGER}, #{shareAmount,jdbcType=INTEGER}, 
+      #{qianfanAi,jdbcType=CHAR}, #{resultType,jdbcType=TINYINT}, #{summary,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.blossom.backend.repository.model.StockNewsArticles" >
+    insert into stock_news_articles
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="seq != null" >
+        seq,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="appUrl != null" >
+        app_url,
+      </if>
+      <if test="shareUrl != null" >
+        share_url,
+      </if>
+      <if test="stocks != null" >
+        stocks,
+      </if>
+      <if test="fields != null" >
+        fields,
+      </if>
+      <if test="tags != null" >
+        tags,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="picurl != null" >
+        picUrl,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="readAmount != null" >
+        read_amount,
+      </if>
+      <if test="shareAmount != null" >
+        share_amount,
+      </if>
+      <if test="qianfanAi != null" >
+        qianfan_ai,
+      </if>
+      <if test="resultType != null" >
+        result_type,
+      </if>
+      <if test="summary != null" >
+        summary,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="seq != null" >
+        #{seq,jdbcType=BIGINT},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="appUrl != null" >
+        #{appUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="shareUrl != null" >
+        #{shareUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="stocks != null" >
+        #{stocks,jdbcType=CHAR},
+      </if>
+      <if test="fields != null" >
+        #{fields,jdbcType=CHAR},
+      </if>
+      <if test="tags != null" >
+        #{tags,jdbcType=CHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="picurl != null" >
+        #{picurl,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="readAmount != null" >
+        #{readAmount,jdbcType=INTEGER},
+      </if>
+      <if test="shareAmount != null" >
+        #{shareAmount,jdbcType=INTEGER},
+      </if>
+      <if test="qianfanAi != null" >
+        #{qianfanAi,jdbcType=CHAR},
+      </if>
+      <if test="resultType != null" >
+        #{resultType,jdbcType=TINYINT},
+      </if>
+      <if test="summary != null" >
+        #{summary,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.blossom.backend.repository.model.StockNewsArticlesExample" resultType="java.lang.Integer" >
+    select count(*) from stock_news_articles
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update stock_news_articles
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.seq != null" >
+        seq = #{record.seq,jdbcType=BIGINT},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null" >
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appUrl != null" >
+        app_url = #{record.appUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shareUrl != null" >
+        share_url = #{record.shareUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stocks != null" >
+        stocks = #{record.stocks,jdbcType=CHAR},
+      </if>
+      <if test="record.fields != null" >
+        fields = #{record.fields,jdbcType=CHAR},
+      </if>
+      <if test="record.tags != null" >
+        tags = #{record.tags,jdbcType=CHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.picurl != null" >
+        picUrl = #{record.picurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.source != null" >
+        source = #{record.source,jdbcType=VARCHAR},
+      </if>
+      <if test="record.readAmount != null" >
+        read_amount = #{record.readAmount,jdbcType=INTEGER},
+      </if>
+      <if test="record.shareAmount != null" >
+        share_amount = #{record.shareAmount,jdbcType=INTEGER},
+      </if>
+      <if test="record.qianfanAi != null" >
+        qianfan_ai = #{record.qianfanAi,jdbcType=CHAR},
+      </if>
+      <if test="record.resultType != null" >
+        result_type = #{record.resultType,jdbcType=TINYINT},
+      </if>
+      <if test="record.summary != null" >
+        summary = #{record.summary,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update stock_news_articles
+    set id = #{record.id,jdbcType=INTEGER},
+      seq = #{record.seq,jdbcType=BIGINT},
+      title = #{record.title,jdbcType=VARCHAR},
+      url = #{record.url,jdbcType=VARCHAR},
+      app_url = #{record.appUrl,jdbcType=VARCHAR},
+      share_url = #{record.shareUrl,jdbcType=VARCHAR},
+      stocks = #{record.stocks,jdbcType=CHAR},
+      fields = #{record.fields,jdbcType=CHAR},
+      tags = #{record.tags,jdbcType=CHAR},
+      type = #{record.type,jdbcType=TINYINT},
+      create_time = #{record.createTime,jdbcType=BIGINT},
+      update_time = #{record.updateTime,jdbcType=BIGINT},
+      picUrl = #{record.picurl,jdbcType=VARCHAR},
+      source = #{record.source,jdbcType=VARCHAR},
+      read_amount = #{record.readAmount,jdbcType=INTEGER},
+      share_amount = #{record.shareAmount,jdbcType=INTEGER},
+      qianfan_ai = #{record.qianfanAi,jdbcType=CHAR},
+      result_type = #{record.resultType,jdbcType=TINYINT},
+      summary = #{record.summary,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update stock_news_articles
+    set id = #{record.id,jdbcType=INTEGER},
+      seq = #{record.seq,jdbcType=BIGINT},
+      title = #{record.title,jdbcType=VARCHAR},
+      url = #{record.url,jdbcType=VARCHAR},
+      app_url = #{record.appUrl,jdbcType=VARCHAR},
+      share_url = #{record.shareUrl,jdbcType=VARCHAR},
+      stocks = #{record.stocks,jdbcType=CHAR},
+      fields = #{record.fields,jdbcType=CHAR},
+      tags = #{record.tags,jdbcType=CHAR},
+      type = #{record.type,jdbcType=TINYINT},
+      create_time = #{record.createTime,jdbcType=BIGINT},
+      update_time = #{record.updateTime,jdbcType=BIGINT},
+      picUrl = #{record.picurl,jdbcType=VARCHAR},
+      source = #{record.source,jdbcType=VARCHAR},
+      read_amount = #{record.readAmount,jdbcType=INTEGER},
+      share_amount = #{record.shareAmount,jdbcType=INTEGER},
+      qianfan_ai = #{record.qianfanAi,jdbcType=CHAR},
+      result_type = #{record.resultType,jdbcType=TINYINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.blossom.backend.repository.model.StockNewsArticles" >
+    update stock_news_articles
+    <set >
+      <if test="seq != null" >
+        seq = #{seq,jdbcType=BIGINT},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="appUrl != null" >
+        app_url = #{appUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="shareUrl != null" >
+        share_url = #{shareUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="stocks != null" >
+        stocks = #{stocks,jdbcType=CHAR},
+      </if>
+      <if test="fields != null" >
+        fields = #{fields,jdbcType=CHAR},
+      </if>
+      <if test="tags != null" >
+        tags = #{tags,jdbcType=CHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="picurl != null" >
+        picUrl = #{picurl,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="readAmount != null" >
+        read_amount = #{readAmount,jdbcType=INTEGER},
+      </if>
+      <if test="shareAmount != null" >
+        share_amount = #{shareAmount,jdbcType=INTEGER},
+      </if>
+      <if test="qianfanAi != null" >
+        qianfan_ai = #{qianfanAi,jdbcType=CHAR},
+      </if>
+      <if test="resultType != null" >
+        result_type = #{resultType,jdbcType=TINYINT},
+      </if>
+      <if test="summary != null" >
+        summary = #{summary,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.blossom.backend.repository.model.StockNewsArticles" >
+    update stock_news_articles
+    set seq = #{seq,jdbcType=BIGINT},
+      title = #{title,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      app_url = #{appUrl,jdbcType=VARCHAR},
+      share_url = #{shareUrl,jdbcType=VARCHAR},
+      stocks = #{stocks,jdbcType=CHAR},
+      fields = #{fields,jdbcType=CHAR},
+      tags = #{tags,jdbcType=CHAR},
+      type = #{type,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=BIGINT},
+      picUrl = #{picurl,jdbcType=VARCHAR},
+      source = #{source,jdbcType=VARCHAR},
+      read_amount = #{readAmount,jdbcType=INTEGER},
+      share_amount = #{shareAmount,jdbcType=INTEGER},
+      qianfan_ai = #{qianfanAi,jdbcType=CHAR},
+      result_type = #{resultType,jdbcType=TINYINT},
+      summary = #{summary,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.blossom.backend.repository.model.StockNewsArticles" >
+    update stock_news_articles
+    set seq = #{seq,jdbcType=BIGINT},
+      title = #{title,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      app_url = #{appUrl,jdbcType=VARCHAR},
+      share_url = #{shareUrl,jdbcType=VARCHAR},
+      stocks = #{stocks,jdbcType=CHAR},
+      fields = #{fields,jdbcType=CHAR},
+      tags = #{tags,jdbcType=CHAR},
+      type = #{type,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=BIGINT},
+      picUrl = #{picurl,jdbcType=VARCHAR},
+      source = #{source,jdbcType=VARCHAR},
+      read_amount = #{readAmount,jdbcType=INTEGER},
+      share_amount = #{shareAmount,jdbcType=INTEGER},
+      qianfan_ai = #{qianfanAi,jdbcType=CHAR},
+      result_type = #{resultType,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blossom.backend.repository.mapper.StockPriceMapper" >
+  <resultMap id="BaseResultMap" type="com.blossom.backend.repository.model.StockPrice" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="code_name" property="codeName" jdbcType="VARCHAR" />
+    <result column="current" property="current" jdbcType="VARCHAR" />
+    <result column="percent" property="percent" jdbcType="VARCHAR" />
+    <result column="turnover_rate" property="turnoverRate" jdbcType="VARCHAR" />
+    <result column="chg" property="chg" jdbcType="VARCHAR" />
+    <result column="high" property="high" jdbcType="VARCHAR" />
+    <result column="low" property="low" jdbcType="VARCHAR" />
+    <result column="open" property="open" jdbcType="VARCHAR" />
+    <result column="last_close" property="lastClose" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="volume" property="volume" jdbcType="BIGINT" />
+    <result column="amount" property="amount" jdbcType="VARCHAR" />
+    <result column="market_capital" property="marketCapital" jdbcType="VARCHAR" />
+    <result column="float_market_capital" property="floatMarketCapital" jdbcType="VARCHAR" />
+    <result column="amplitude" property="amplitude" jdbcType="VARCHAR" />
+    <result column="avg_price" property="avgPrice" jdbcType="VARCHAR" />
+    <result column="trade_volume" property="tradeVolume" jdbcType="BIGINT" />
+    <result column="current_year_percent" property="currentYearPercent" jdbcType="VARCHAR" />
+    <result column="market" property="market" jdbcType="VARCHAR" />
+    <result column="pe_ttm" property="peTtm" jdbcType="VARCHAR" />
+    <result column="volume_ratio" property="volumeRatio" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, code, code_name, current, percent, turnover_rate, chg, high, low, open, last_close, 
+    create_time, volume, amount, market_capital, float_market_capital, amplitude, avg_price, 
+    trade_volume, current_year_percent, market, pe_ttm, volume_ratio
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.blossom.backend.repository.model.StockPriceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from stock_price
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from stock_price
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from stock_price
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.blossom.backend.repository.model.StockPriceExample" >
+    delete from stock_price
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.blossom.backend.repository.model.StockPrice" >
+    insert into stock_price (id, code, code_name, 
+      current, percent, turnover_rate, 
+      chg, high, low, open, 
+      last_close, create_time, volume, 
+      amount, market_capital, float_market_capital, 
+      amplitude, avg_price, trade_volume, 
+      current_year_percent, market, pe_ttm, 
+      volume_ratio)
+    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{codeName,jdbcType=VARCHAR}, 
+      #{current,jdbcType=VARCHAR}, #{percent,jdbcType=VARCHAR}, #{turnoverRate,jdbcType=VARCHAR}, 
+      #{chg,jdbcType=VARCHAR}, #{high,jdbcType=VARCHAR}, #{low,jdbcType=VARCHAR}, #{open,jdbcType=VARCHAR}, 
+      #{lastClose,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{volume,jdbcType=BIGINT}, 
+      #{amount,jdbcType=VARCHAR}, #{marketCapital,jdbcType=VARCHAR}, #{floatMarketCapital,jdbcType=VARCHAR}, 
+      #{amplitude,jdbcType=VARCHAR}, #{avgPrice,jdbcType=VARCHAR}, #{tradeVolume,jdbcType=BIGINT}, 
+      #{currentYearPercent,jdbcType=VARCHAR}, #{market,jdbcType=VARCHAR}, #{peTtm,jdbcType=VARCHAR}, 
+      #{volumeRatio,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.blossom.backend.repository.model.StockPrice" >
+    insert into stock_price
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="codeName != null" >
+        code_name,
+      </if>
+      <if test="current != null" >
+        current,
+      </if>
+      <if test="percent != null" >
+        percent,
+      </if>
+      <if test="turnoverRate != null" >
+        turnover_rate,
+      </if>
+      <if test="chg != null" >
+        chg,
+      </if>
+      <if test="high != null" >
+        high,
+      </if>
+      <if test="low != null" >
+        low,
+      </if>
+      <if test="open != null" >
+        open,
+      </if>
+      <if test="lastClose != null" >
+        last_close,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="volume != null" >
+        volume,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="marketCapital != null" >
+        market_capital,
+      </if>
+      <if test="floatMarketCapital != null" >
+        float_market_capital,
+      </if>
+      <if test="amplitude != null" >
+        amplitude,
+      </if>
+      <if test="avgPrice != null" >
+        avg_price,
+      </if>
+      <if test="tradeVolume != null" >
+        trade_volume,
+      </if>
+      <if test="currentYearPercent != null" >
+        current_year_percent,
+      </if>
+      <if test="market != null" >
+        market,
+      </if>
+      <if test="peTtm != null" >
+        pe_ttm,
+      </if>
+      <if test="volumeRatio != null" >
+        volume_ratio,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="codeName != null" >
+        #{codeName,jdbcType=VARCHAR},
+      </if>
+      <if test="current != null" >
+        #{current,jdbcType=VARCHAR},
+      </if>
+      <if test="percent != null" >
+        #{percent,jdbcType=VARCHAR},
+      </if>
+      <if test="turnoverRate != null" >
+        #{turnoverRate,jdbcType=VARCHAR},
+      </if>
+      <if test="chg != null" >
+        #{chg,jdbcType=VARCHAR},
+      </if>
+      <if test="high != null" >
+        #{high,jdbcType=VARCHAR},
+      </if>
+      <if test="low != null" >
+        #{low,jdbcType=VARCHAR},
+      </if>
+      <if test="open != null" >
+        #{open,jdbcType=VARCHAR},
+      </if>
+      <if test="lastClose != null" >
+        #{lastClose,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="volume != null" >
+        #{volume,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=VARCHAR},
+      </if>
+      <if test="marketCapital != null" >
+        #{marketCapital,jdbcType=VARCHAR},
+      </if>
+      <if test="floatMarketCapital != null" >
+        #{floatMarketCapital,jdbcType=VARCHAR},
+      </if>
+      <if test="amplitude != null" >
+        #{amplitude,jdbcType=VARCHAR},
+      </if>
+      <if test="avgPrice != null" >
+        #{avgPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeVolume != null" >
+        #{tradeVolume,jdbcType=BIGINT},
+      </if>
+      <if test="currentYearPercent != null" >
+        #{currentYearPercent,jdbcType=VARCHAR},
+      </if>
+      <if test="market != null" >
+        #{market,jdbcType=VARCHAR},
+      </if>
+      <if test="peTtm != null" >
+        #{peTtm,jdbcType=VARCHAR},
+      </if>
+      <if test="volumeRatio != null" >
+        #{volumeRatio,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.blossom.backend.repository.model.StockPriceExample" resultType="java.lang.Integer" >
+    select count(*) from stock_price
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update stock_price
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.codeName != null" >
+        code_name = #{record.codeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.current != null" >
+        current = #{record.current,jdbcType=VARCHAR},
+      </if>
+      <if test="record.percent != null" >
+        percent = #{record.percent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.turnoverRate != null" >
+        turnover_rate = #{record.turnoverRate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chg != null" >
+        chg = #{record.chg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.high != null" >
+        high = #{record.high,jdbcType=VARCHAR},
+      </if>
+      <if test="record.low != null" >
+        low = #{record.low,jdbcType=VARCHAR},
+      </if>
+      <if test="record.open != null" >
+        open = #{record.open,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastClose != null" >
+        last_close = #{record.lastClose,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.volume != null" >
+        volume = #{record.volume,jdbcType=BIGINT},
+      </if>
+      <if test="record.amount != null" >
+        amount = #{record.amount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.marketCapital != null" >
+        market_capital = #{record.marketCapital,jdbcType=VARCHAR},
+      </if>
+      <if test="record.floatMarketCapital != null" >
+        float_market_capital = #{record.floatMarketCapital,jdbcType=VARCHAR},
+      </if>
+      <if test="record.amplitude != null" >
+        amplitude = #{record.amplitude,jdbcType=VARCHAR},
+      </if>
+      <if test="record.avgPrice != null" >
+        avg_price = #{record.avgPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradeVolume != null" >
+        trade_volume = #{record.tradeVolume,jdbcType=BIGINT},
+      </if>
+      <if test="record.currentYearPercent != null" >
+        current_year_percent = #{record.currentYearPercent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.market != null" >
+        market = #{record.market,jdbcType=VARCHAR},
+      </if>
+      <if test="record.peTtm != null" >
+        pe_ttm = #{record.peTtm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.volumeRatio != null" >
+        volume_ratio = #{record.volumeRatio,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update stock_price
+    set id = #{record.id,jdbcType=INTEGER},
+      code = #{record.code,jdbcType=VARCHAR},
+      code_name = #{record.codeName,jdbcType=VARCHAR},
+      current = #{record.current,jdbcType=VARCHAR},
+      percent = #{record.percent,jdbcType=VARCHAR},
+      turnover_rate = #{record.turnoverRate,jdbcType=VARCHAR},
+      chg = #{record.chg,jdbcType=VARCHAR},
+      high = #{record.high,jdbcType=VARCHAR},
+      low = #{record.low,jdbcType=VARCHAR},
+      open = #{record.open,jdbcType=VARCHAR},
+      last_close = #{record.lastClose,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      volume = #{record.volume,jdbcType=BIGINT},
+      amount = #{record.amount,jdbcType=VARCHAR},
+      market_capital = #{record.marketCapital,jdbcType=VARCHAR},
+      float_market_capital = #{record.floatMarketCapital,jdbcType=VARCHAR},
+      amplitude = #{record.amplitude,jdbcType=VARCHAR},
+      avg_price = #{record.avgPrice,jdbcType=VARCHAR},
+      trade_volume = #{record.tradeVolume,jdbcType=BIGINT},
+      current_year_percent = #{record.currentYearPercent,jdbcType=VARCHAR},
+      market = #{record.market,jdbcType=VARCHAR},
+      pe_ttm = #{record.peTtm,jdbcType=VARCHAR},
+      volume_ratio = #{record.volumeRatio,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.blossom.backend.repository.model.StockPrice" >
+    update stock_price
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="codeName != null" >
+        code_name = #{codeName,jdbcType=VARCHAR},
+      </if>
+      <if test="current != null" >
+        current = #{current,jdbcType=VARCHAR},
+      </if>
+      <if test="percent != null" >
+        percent = #{percent,jdbcType=VARCHAR},
+      </if>
+      <if test="turnoverRate != null" >
+        turnover_rate = #{turnoverRate,jdbcType=VARCHAR},
+      </if>
+      <if test="chg != null" >
+        chg = #{chg,jdbcType=VARCHAR},
+      </if>
+      <if test="high != null" >
+        high = #{high,jdbcType=VARCHAR},
+      </if>
+      <if test="low != null" >
+        low = #{low,jdbcType=VARCHAR},
+      </if>
+      <if test="open != null" >
+        open = #{open,jdbcType=VARCHAR},
+      </if>
+      <if test="lastClose != null" >
+        last_close = #{lastClose,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="volume != null" >
+        volume = #{volume,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=VARCHAR},
+      </if>
+      <if test="marketCapital != null" >
+        market_capital = #{marketCapital,jdbcType=VARCHAR},
+      </if>
+      <if test="floatMarketCapital != null" >
+        float_market_capital = #{floatMarketCapital,jdbcType=VARCHAR},
+      </if>
+      <if test="amplitude != null" >
+        amplitude = #{amplitude,jdbcType=VARCHAR},
+      </if>
+      <if test="avgPrice != null" >
+        avg_price = #{avgPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeVolume != null" >
+        trade_volume = #{tradeVolume,jdbcType=BIGINT},
+      </if>
+      <if test="currentYearPercent != null" >
+        current_year_percent = #{currentYearPercent,jdbcType=VARCHAR},
+      </if>
+      <if test="market != null" >
+        market = #{market,jdbcType=VARCHAR},
+      </if>
+      <if test="peTtm != null" >
+        pe_ttm = #{peTtm,jdbcType=VARCHAR},
+      </if>
+      <if test="volumeRatio != null" >
+        volume_ratio = #{volumeRatio,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.blossom.backend.repository.model.StockPrice" >
+    update stock_price
+    set code = #{code,jdbcType=VARCHAR},
+      code_name = #{codeName,jdbcType=VARCHAR},
+      current = #{current,jdbcType=VARCHAR},
+      percent = #{percent,jdbcType=VARCHAR},
+      turnover_rate = #{turnoverRate,jdbcType=VARCHAR},
+      chg = #{chg,jdbcType=VARCHAR},
+      high = #{high,jdbcType=VARCHAR},
+      low = #{low,jdbcType=VARCHAR},
+      open = #{open,jdbcType=VARCHAR},
+      last_close = #{lastClose,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      volume = #{volume,jdbcType=BIGINT},
+      amount = #{amount,jdbcType=VARCHAR},
+      market_capital = #{marketCapital,jdbcType=VARCHAR},
+      float_market_capital = #{floatMarketCapital,jdbcType=VARCHAR},
+      amplitude = #{amplitude,jdbcType=VARCHAR},
+      avg_price = #{avgPrice,jdbcType=VARCHAR},
+      trade_volume = #{tradeVolume,jdbcType=BIGINT},
+      current_year_percent = #{currentYearPercent,jdbcType=VARCHAR},
+      market = #{market,jdbcType=VARCHAR},
+      pe_ttm = #{peTtm,jdbcType=VARCHAR},
+      volume_ratio = #{volumeRatio,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
