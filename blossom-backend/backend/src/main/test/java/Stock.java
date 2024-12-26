@@ -5,8 +5,8 @@ import com.blossom.backend.repository.mapper.StockPriceMapper;
 import com.blossom.backend.repository.mapper.UserStockMapper;
 import com.blossom.backend.repository.model.*;
 import com.blossom.backend.thirdparty.StockNewsScheduled;
-import com.blossom.backend.thirdparty.StockPriceBaseResp;
 import com.blossom.backend.thirdparty.TushareApi;
+import com.blossom.backend.thirdparty.model.StockPriceBaseResp;
 import com.blossom.backend.util.HttpUtils;
 import com.blossom.backend.util.SendEmail;
 import com.blossom.common.base.util.json.JsonUtil;
@@ -43,7 +43,7 @@ public class Stock {
 
     @Test
     public void test4() throws Exception {
-       stockNewsScheduled.updateStockPriceV2();
+       stockNewsScheduled.updateStockTradeData();
         //R<?> r = stockNewsScheduled.updateStockCompany();
     }
 

@@ -58,7 +58,7 @@
 
 
         <!-- 不生成Example的选择 -->
-        <table tableName="stock_price" domainObjectName="StockPrice"/>
+        <table tableName="stock_trade_data" domainObjectName="StockTradeData"/>
 
     </context>
 </generatorConfiguration>

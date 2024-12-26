@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blossom.backend.repository.mapper.StockTradeDataMapper" >
+  <resultMap id="BaseResultMap" type="com.blossom.backend.repository.model.StockTradeData" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="timestamp" property="timestamp" jdbcType="BIGINT" />
+    <result column="volume" property="volume" jdbcType="INTEGER" />
+    <result column="current" property="current" jdbcType="DECIMAL" />
+    <result column="avg_price" property="avgPrice" jdbcType="DECIMAL" />
+    <result column="chg" property="chg" jdbcType="DECIMAL" />
+    <result column="percent" property="percent" jdbcType="DECIMAL" />
+    <result column="amount" property="amount" jdbcType="BIGINT" />
+    <result column="buy_volume" property="buyVolume" jdbcType="INTEGER" />
+    <result column="sell_volume" property="sellVolume" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, code, timestamp, volume, current, avg_price, chg, percent, amount, buy_volume, 
+    sell_volume, create_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.blossom.backend.repository.model.StockTradeDataExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from stock_trade_data
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+
+  <select id="getLastTradList" resultMap="BaseResultMap" parameterType="com.blossom.backend.repository.model.StockTradeDataExample" >
+    SELECT std.*
+    FROM stock_trade_data std
+           INNER JOIN (
+      SELECT code, MAX(timestamp) AS max_timestamp
+      FROM stock_trade_data
+      GROUP BY code
+    ) latest
+    ON std.code = latest.code AND std.timestamp = latest.max_timestamp;
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from stock_trade_data
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from stock_trade_data
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.blossom.backend.repository.model.StockTradeDataExample" >
+    delete from stock_trade_data
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.blossom.backend.repository.model.StockTradeData" >
+    insert into stock_trade_data (id, code, timestamp, 
+      volume, current, avg_price, 
+      chg, percent, amount, 
+      buy_volume, sell_volume, create_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{timestamp,jdbcType=BIGINT}, 
+      #{volume,jdbcType=INTEGER}, #{current,jdbcType=DECIMAL}, #{avgPrice,jdbcType=DECIMAL}, 
+      #{chg,jdbcType=DECIMAL}, #{percent,jdbcType=DECIMAL}, #{amount,jdbcType=BIGINT}, 
+      #{buyVolume,jdbcType=INTEGER}, #{sellVolume,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.blossom.backend.repository.model.StockTradeData" >
+    insert into stock_trade_data
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="timestamp != null" >
+        timestamp,
+      </if>
+      <if test="volume != null" >
+        volume,
+      </if>
+      <if test="current != null" >
+        current,
+      </if>
+      <if test="avgPrice != null" >
+        avg_price,
+      </if>
+      <if test="chg != null" >
+        chg,
+      </if>
+      <if test="percent != null" >
+        percent,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="buyVolume != null" >
+        buy_volume,
+      </if>
+      <if test="sellVolume != null" >
+        sell_volume,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="timestamp != null" >
+        #{timestamp,jdbcType=BIGINT},
+      </if>
+      <if test="volume != null" >
+        #{volume,jdbcType=INTEGER},
+      </if>
+      <if test="current != null" >
+        #{current,jdbcType=DECIMAL},
+      </if>
+      <if test="avgPrice != null" >
+        #{avgPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="chg != null" >
+        #{chg,jdbcType=DECIMAL},
+      </if>
+      <if test="percent != null" >
+        #{percent,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=BIGINT},
+      </if>
+      <if test="buyVolume != null" >
+        #{buyVolume,jdbcType=INTEGER},
+      </if>
+      <if test="sellVolume != null" >
+        #{sellVolume,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.blossom.backend.repository.model.StockTradeDataExample" resultType="java.lang.Integer" >
+    select count(*) from stock_trade_data
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update stock_trade_data
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.timestamp != null" >
+        timestamp = #{record.timestamp,jdbcType=BIGINT},
+      </if>
+      <if test="record.volume != null" >
+        volume = #{record.volume,jdbcType=INTEGER},
+      </if>
+      <if test="record.current != null" >
+        current = #{record.current,jdbcType=DECIMAL},
+      </if>
+      <if test="record.avgPrice != null" >
+        avg_price = #{record.avgPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.chg != null" >
+        chg = #{record.chg,jdbcType=DECIMAL},
+      </if>
+      <if test="record.percent != null" >
+        percent = #{record.percent,jdbcType=DECIMAL},
+      </if>
+      <if test="record.amount != null" >
+        amount = #{record.amount,jdbcType=BIGINT},
+      </if>
+      <if test="record.buyVolume != null" >
+        buy_volume = #{record.buyVolume,jdbcType=INTEGER},
+      </if>
+      <if test="record.sellVolume != null" >
+        sell_volume = #{record.sellVolume,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update stock_trade_data
+    set id = #{record.id,jdbcType=INTEGER},
+      code = #{record.code,jdbcType=VARCHAR},
+      timestamp = #{record.timestamp,jdbcType=BIGINT},
+      volume = #{record.volume,jdbcType=INTEGER},
+      current = #{record.current,jdbcType=DECIMAL},
+      avg_price = #{record.avgPrice,jdbcType=DECIMAL},
+      chg = #{record.chg,jdbcType=DECIMAL},
+      percent = #{record.percent,jdbcType=DECIMAL},
+      amount = #{record.amount,jdbcType=BIGINT},
+      buy_volume = #{record.buyVolume,jdbcType=INTEGER},
+      sell_volume = #{record.sellVolume,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.blossom.backend.repository.model.StockTradeData" >
+    update stock_trade_data
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="timestamp != null" >
+        timestamp = #{timestamp,jdbcType=BIGINT},
+      </if>
+      <if test="volume != null" >
+        volume = #{volume,jdbcType=INTEGER},
+      </if>
+      <if test="current != null" >
+        current = #{current,jdbcType=DECIMAL},
+      </if>
+      <if test="avgPrice != null" >
+        avg_price = #{avgPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="chg != null" >
+        chg = #{chg,jdbcType=DECIMAL},
+      </if>
+      <if test="percent != null" >
+        percent = #{percent,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=BIGINT},
+      </if>
+      <if test="buyVolume != null" >
+        buy_volume = #{buyVolume,jdbcType=INTEGER},
+      </if>
+      <if test="sellVolume != null" >
+        sell_volume = #{sellVolume,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.blossom.backend.repository.model.StockTradeData" >
+    update stock_trade_data
+    set code = #{code,jdbcType=VARCHAR},
+      timestamp = #{timestamp,jdbcType=BIGINT},
+      volume = #{volume,jdbcType=INTEGER},
+      current = #{current,jdbcType=DECIMAL},
+      avg_price = #{avgPrice,jdbcType=DECIMAL},
+      chg = #{chg,jdbcType=DECIMAL},
+      percent = #{percent,jdbcType=DECIMAL},
+      amount = #{amount,jdbcType=BIGINT},
+      buy_volume = #{buyVolume,jdbcType=INTEGER},
+      sell_volume = #{sellVolume,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

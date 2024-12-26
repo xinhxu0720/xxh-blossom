@@ -4,6 +4,8 @@ import com.blossom.backend.repository.mapper.*;
 import com.blossom.backend.repository.model.*;
 import com.blossom.backend.thirdparty.ai.kimi;
 import com.blossom.backend.thirdparty.hefeng.stock.StockResp;
+import com.blossom.backend.thirdparty.model.BaseResp;
+import com.blossom.backend.thirdparty.model.StockPriceBaseResp;
 import com.blossom.backend.util.HttpUtils;
 import com.blossom.backend.util.SendEmail;
 import com.blossom.common.base.pojo.R;
@@ -14,6 +16,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -31,6 +35,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
 /**
@@ -57,6 +63,9 @@ public class StockNewsScheduled {
 
     @Resource
     private StockReportsMapper stockReportsMapper;
+
+    @Resource
+    private StockTradeDataMapper stockTradeDataMapper;
 
     /**
      * 刷新天气缓存
@@ -91,9 +100,86 @@ public class StockNewsScheduled {
         return R.ok();
     }
 
-    @GetMapping("/updateStockPriceV2")
-    @Scheduled(cron = "0/20 * * * * ? ")
-    public R<?> updateStockPriceV2() throws IOException, InterruptedException {
+    private static ConcurrentMap<String, Long> STOCK_TRADE_DATA = Maps.newConcurrentMap();
+
+
+    @GetMapping(value = "/updateStockTradeData", name = "存储市场数据的表")
+    @Scheduled(cron = "0 */1 * * * *")
+    public R<?> updateStockTradeData() {
+        // 检查当前时间是否在范围内
+        log.info("存储市场数据的表 定时任务开始===============================================");
+        if (isTradingTime()) {
+            long l = System.currentTimeMillis();
+
+
+            StockCompanyExample example = new StockCompanyExample();
+            example.createCriteria().andMarketEqualTo("主板")
+                    .andListStatusEqualTo("L").andPeTtmNotEqualTo("");
+            List<StockCompany> userStocks = stockCompanyMapper.selectByExample(example);
+            if (Objects.isNull(userStocks) || userStocks.isEmpty()) {
+                return R.ok();
+            }
+            log.info("存储市场数据的表 查询总条数==============" + userStocks.size());
+
+            if (STOCK_TRADE_DATA.isEmpty()) {
+                List<StockTradeData> lastTradList = stockTradeDataMapper.getLastTradList();
+                log.info("lastTradList===============================条数：" + lastTradList.size());
+                for (StockTradeData x : lastTradList) {
+                    STOCK_TRADE_DATA.put(x.getCode(), x.getTimestamp());
+                }
+            }
+
+            userStocks.stream().parallel().forEach(x -> {
+
+                String str = HttpUtils.sendHttp("https://stock.xueqiu.com/v5/stock/capital/l2/minute.json?symbol=" + x.getTsCod());
+                JsonNode resultNode = null;
+                try {
+                    resultNode = new ObjectMapper().readTree(str);
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+
+
+                JsonNode items = resultNode.get("data").get("items");
+                for (JsonNode node : items) {
+                    long timestamp = node.get("timestamp").asLong();
+                    if (STOCK_TRADE_DATA.containsKey(x.getTsCod()) && STOCK_TRADE_DATA.get(x.getTsCod()) < timestamp) {
+                        StockTradeData stockPrice = StockTradeData.builder()
+                                .code(x.getTsCod())
+                                .createTime(new Date())
+                                .avgPrice(new BigDecimal(node.get("avg_price").asText()))
+                                .amount(node.get("amount").asLong())
+                                .chg(new BigDecimal(node.get("chg").asLong()))
+                                .buyVolume(node.get("buy_volume").asInt())
+                                .sellVolume(node.get("sell_volume").asInt())
+                                .percent(new BigDecimal(node.get("percent").asText()))
+                                .current(new BigDecimal(node.get("current").asText()))
+                                .volume(node.get("volume").asInt())
+                                .timestamp(timestamp).build();
+                        stockTradeDataMapper.insertSelective(stockPrice);
+                    }
+                }
+                JsonNode jsonNode = items.get(items.size() - 1);
+                STOCK_TRADE_DATA.put(x.getTsCod(), jsonNode.get("timestamp").asLong());
+                System.out.println("存储市场数据的表 完成一组:" + x.getTsCod());
+
+            });
+            System.out.println("存储市场数据的表开始时间：" + l);
+            System.out.println("存储市场数据的表结束时间：" + System.currentTimeMillis());
+
+            log.info("存储市场数据的表 定时任务结束");
+        } else {
+            log.info("当前时间不在早上的九点到下午的15点之间。");
+            System.out.println("");
+        }
+
+        return R.ok();
+    }
+
+    @GetMapping(value = "/updateStockPriceV2", name = "更新当前股票价格")
+    @Scheduled(cron = "0/30 * * * * ? ")
+    public R<?> updateStockPriceV2() {
+        log.info("更新当前股票价格 定时任务开始===============================================");
         // 检查当前时间是否在范围内
         if (isTradingTime()) {
             long l = System.currentTimeMillis();
@@ -229,7 +315,7 @@ public class StockNewsScheduled {
 
 
     @GetMapping(value = "/updateStockCompany", name = "更新公司信息")
-    @Scheduled(cron = "0 0 0,0,0,0 * * ? ")
+  //  @Scheduled(cron = "0 0 0,0,0,0 * * ? ")
     public R<?> updateStockCompany() throws Exception {
         log.info("更新公司定时任务开启");
 
@@ -328,7 +414,7 @@ public class StockNewsScheduled {
 
 
     @GetMapping(value = "/updateStockCompanyReport", name = "更新公司信息财报信息")
-    @Scheduled(cron = "0 0 0,0,0,0 * * ? ")
+  //  @Scheduled(cron = "0 0 0,0,0,0 * * ? ")
     public R<?> updateStockCompanyReport() throws Exception {
         log.info("更新==============公司报告=========================定时任务开启");
 
@@ -388,10 +474,6 @@ public class StockNewsScheduled {
             }
             log.info("更新==============公司报告=========================单个完成：" + userStock.getName());
         });
-        for (StockCompany userStock : userStocks) {
-
-        }
-
 
         System.out.println("开始时间：" + l);
         System.out.println("结束时间：" + System.currentTimeMillis());
